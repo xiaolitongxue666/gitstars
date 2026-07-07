@@ -1,0 +1,16 @@
+services:
+  gitstars:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        VITE_GITSTARS_CLIENT_ID: ${VITE_GITSTARS_CLIENT_ID}
+        VITE_BASE_PATH: /gitstars/
+    container_name: gitstars
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8091:8080"
+    env_file:
+      - .env
+    environment:
+      VITE_GITSTARS_CLIENT_SECRET: ${VITE_GITSTARS_CLIENT_SECRET}

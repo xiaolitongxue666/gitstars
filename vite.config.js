@@ -7,8 +7,11 @@ import { loadEnv } from 'vite';
 const envLocal = loadEnv(process.env.NODE_ENV, process.cwd());
 const isDev = process.env.NODE_ENV === 'development';
 
+const basePath = envLocal.VITE_BASE_PATH || process.env.VITE_BASE_PATH || '/';
+
 const toConfig = () => {
   const config = {
+    base: basePath,
     plugins: [
       vue(),
       createSvgIconsPlugin({

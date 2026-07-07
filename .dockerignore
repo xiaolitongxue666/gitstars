@@ -1,0 +1,10 @@
+node_modules
+dist
+.git
+*.log
+.env
+docker/.env
+.vercel
+.DS_Store
+Thumbs.db
+pnpm-lock.yaml.*

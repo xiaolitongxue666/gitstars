@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useUserStore } from '@/store/user';
 
-// httpRequestGitstars
-
-export const httpRequestGitstars = axios.create();
+// Self-hosted API (OAuth token exchange). Must use Vite base path when deployed under a sub-route (e.g. /gitstars/).
+export const httpRequestGitstars = axios.create({
+  baseURL: import.meta.env.BASE_URL,
+});
 
 httpRequestGitstars.interceptors.response.use((res) => res.data);
 

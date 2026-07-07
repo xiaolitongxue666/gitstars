@@ -2,6 +2,8 @@ export const config = {
   runtime: 'edge',
 };
 
+// Vercel Edge Function entry. Self-hosted Docker uses ../server.js instead.
+
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'OPTIONS,POST',

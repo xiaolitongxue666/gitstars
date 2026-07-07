@@ -52,3 +52,18 @@ Github 会统计分析 Repository 的文件，确定 Repository 的主编程语�
 ## 🤖 Vercel 部署
 
 [WIKI Vercel 部署](https://github.com/cfour-hi/gitstars/wiki/Vercel-%E9%83%A8%E7%BD%B2)
+
+## 🐳 Docker 自托管（VPS / 子路径）
+
+适用于 Nginx 子路由（如 `/gitstars/`）+ 自建 OAuth API（替代 Vercel Edge Function）。
+
+详见 [docker/DEPLOY.md](./docker/DEPLOY.md)。
+
+```bash
+cd docker
+cp .env.example .env   # 填入 GitHub OAuth App 凭证
+docker compose build --no-cache
+docker compose up -d
+```
+
+默认监听 `127.0.0.1:8091`，由反向代理暴露公网路径。

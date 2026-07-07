@@ -25,11 +25,18 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { BRAND } from '@/constants';
 
-const authURL = `https://github.com/login/oauth/authorize?client_id=${
-  import.meta.env.VITE_GITSTARS_CLIENT_ID
-}&redirect_uri=${location.origin}&scope=public_repo`;
+const redirectUri = new URL(import.meta.env.BASE_URL, location.origin).href;
+const bgUrl = `url(${import.meta.env.BASE_URL}example-your-stars.png)`;
+
+const authURL = computed(
+  () =>
+    `https://github.com/login/oauth/authorize?client_id=${
+      import.meta.env.VITE_GITSTARS_CLIENT_ID
+    }&redirect_uri=${encodeURIComponent(redirectUri)}&scope=public_repo`,
+);
 </script>
 
 <style scoped>
@@ -38,6 +45,6 @@ const authURL = `https://github.com/login/oauth/authorize?client_id=${
 }
 
 .wrapper {
-  background: url(/example-your-stars.png) no-repeat center/contain;
+  background: v-bind(bgUrl) no-repeat center/contain;
 }
 </style>
