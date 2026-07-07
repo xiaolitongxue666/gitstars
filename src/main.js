@@ -3,7 +3,7 @@ import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
-import { TOKEN_KEY, LANG_KEY } from '@/constants';
+import { TOKEN_KEY, LANG_KEY, LOCAL_KEY_USERINFO } from '@/constants';
 import { getToken } from '@/server/gitstars';
 import { useUserStore } from '@/store/user';
 import SvgIcon from '@/components/svg-icon.vue';
@@ -64,19 +64,31 @@ async function initApp() {
   if (lang) userStore.$patch({ lang });
   app.use(createI18nByLocale(userStore.lang));
 
-  const token = localStorage.getItem(TOKEN_KEY);
-
-  if (token) {
-    userStore.$patch({ token });
-    await userStore.resolveUserinfo();
-  } else {
-    await resolveToken();
-  }
-
+  // Mount first so the login page is not blocked by slow GitHub API calls from the browser.
   app.mount('#app');
 
   window.addEventListener('resize', throttle(onResize, 300));
   onResize();
+
+  const token = localStorage.getItem(TOKEN_KEY);
+
+  if (token) {
+    userStore.$patch({ token });
+    try {
+      await userStore.resolveUserinfo();
+    } catch (err) {
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(LOCAL_KEY_USERINFO);
+      userStore.$patch({ token: '', userinfo: {} });
+    }
+    return;
+  }
+
+  try {
+    await resolveToken();
+  } catch {
+    // resolveToken already calls onAppError when OAuth exchange fails
+  }
 }
 
 initApp();

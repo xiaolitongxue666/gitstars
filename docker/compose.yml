@@ -8,9 +8,12 @@ services:
         VITE_BASE_PATH: /gitstars/
     container_name: gitstars
     restart: unless-stopped
-    ports:
-      - "127.0.0.1:8091:8080"
+    network_mode: host
     env_file:
       - .env
     environment:
+      SERVER_PORT: "8091"
       VITE_GITSTARS_CLIENT_SECRET: ${VITE_GITSTARS_CLIENT_SECRET}
+      HTTP_PROXY: ${HTTP_PROXY:-http://127.0.0.1:17890}
+      HTTPS_PROXY: ${HTTPS_PROXY:-http://127.0.0.1:17890}
+      NO_PROXY: ${NO_PROXY:-localhost,127.0.0.1}

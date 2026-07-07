@@ -35,7 +35,7 @@
     </template>
 
     <svg-icon
-      v-else
+      v-else-if="repositoryStore.loading"
       name="loading"
       class="absolute left-1/2 top-1/3 -ml-3 animate-spin text-2xl text-gray-300"
     />

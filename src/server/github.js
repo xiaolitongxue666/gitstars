@@ -20,7 +20,7 @@ export async function getReadmeByMarkdown(content) {
 
 export async function getGithubRankingLanguageList() {
   const res = await fetch(
-    'https://raw.githubusercontent.com/cfour-hi/github-ranking/main/languages.json',
+    `${import.meta.env.BASE_URL}api/github-raw/cfour-hi/github-ranking/main/languages.json`,
   );
   const list = await res.json();
   return list;
@@ -28,7 +28,7 @@ export async function getGithubRankingLanguageList() {
 
 export async function getGithubRankingLanguageMap() {
   const res = await fetch(
-    `https://raw.githubusercontent.com/cfour-hi/github-ranking/main/ranking.json`,
+    `${import.meta.env.BASE_URL}api/github-raw/cfour-hi/github-ranking/main/ranking.json`,
   );
   const map = await res.json();
   return map;
