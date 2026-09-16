@@ -1,5 +1,9 @@
 # Gitstars VPS 部署说明
 
+运行时 Node **22**（`docker` 与 `package.json` `engines`）。CORS 默认只放行 `http://127.0.0.1:8091`、`http://localhost:8091`、`https://xiaolitongxue.com.cn`；可用 `GITSTARS_CORS_ORIGIN` 逗号覆盖。勿把该口绑公网。
+
+最小检查：`bash scripts/smoke-local.sh`。
+
 ## 1. 创建 GitHub OAuth App
 
 1. 打开 https://github.com/settings/applications/new

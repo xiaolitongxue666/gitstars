@@ -18,11 +18,32 @@ const proxyAgent = PROXY_URL
     })
   : undefined;
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'OPTIONS,POST',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
+const DEFAULT_CORS_ORIGINS = [
+  'http://127.0.0.1:8091',
+  'http://localhost:8091',
+  'https://xiaolitongxue.com.cn',
+];
+
+function allowedCorsOrigins() {
+  const raw = process.env.GITSTARS_CORS_ORIGIN;
+  if (raw && raw.trim()) {
+    return raw.split(',').map((s) => s.trim()).filter(Boolean);
+  }
+  return DEFAULT_CORS_ORIGINS;
+}
+
+function applyCorsHeaders(req, res) {
+  const requestOrigin = req.headers.origin;
+  const allowed = allowedCorsOrigins();
+  const origin =
+    requestOrigin && allowed.includes(requestOrigin) ? requestOrigin : allowed[0];
+  res.set({
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST',
+    'Access-Control-Allow-Headers': 'Content-Type,Authorization,Accept',
+    Vary: 'Origin',
+  });
+}
 
 const FORWARD_HEADERS = ['authorization', 'accept', 'content-type', 'user-agent'];
 
@@ -64,11 +85,22 @@ async function proxyGitHubRequest(req, res, origin) {
   }
 }
 
-app.use(cors());
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+      callback(null, allowedCorsOrigins().includes(origin));
+    },
+  }),
+);
 app.use(express.json());
 
-app.options('/api/oauth/access_token', (_req, res) => {
-  res.set(CORS_HEADERS).status(200).send('OK');
+app.options('/api/oauth/access_token', (req, res) => {
+  applyCorsHeaders(req, res);
+  res.status(200).send('OK');
 });
 
 app.post('/api/oauth/access_token', async (req, res) => {
@@ -88,7 +120,8 @@ app.post('/api/oauth/access_token', async (req, res) => {
     });
 
     const data = await githubRes.json();
-    res.set(CORS_HEADERS).json(data);
+    applyCorsHeaders(req, res);
+    res.json(data);
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: e.message });
