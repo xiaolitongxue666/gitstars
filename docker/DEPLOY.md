@@ -2,6 +2,8 @@
 
 运行时 Node **22**（`docker` 与 `package.json` `engines`）。CORS 默认只放行 `http://127.0.0.1:8091`、`http://localhost:8091`、`https://xiaolitongxue.com.cn`；可用 `GITSTARS_CORS_ORIGIN` 逗号覆盖。勿把该口绑公网。
 
+路径：本机 `Code/VPS/gitstars`；生产 `/home/ubuntu/Code/Web/gitstars`。Agent 入口：[../AGENTS.md](../AGENTS.md)。
+
 最小检查：`bash scripts/smoke-local.sh`。
 
 ## 1. 创建 GitHub OAuth App
@@ -52,7 +54,7 @@ docker compose up -d --force-recreate
 
 ## 5. vps_nginx
 
-`/gitstars/` → rewrite 去前缀 → `127.0.0.1:8091`；公网暴露加入 `VPS_NGINX_PUBLIC_EXPOSE=...,gitstars`。
+`/gitstars/` → rewrite 去前缀 → `127.0.0.1:8091`（`proxy_pass` **有**尾斜杠）。公网暴露加入 `VPS_NGINX_PUBLIC_EXPOSE=...,gitstars`。
 
 ## 6. 验证
 
