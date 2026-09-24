@@ -2,7 +2,7 @@
 
 运行时 Node **22**（`docker` 与 `package.json` `engines`）。CORS 默认只放行 `http://127.0.0.1:8091`、`http://localhost:8091`、`https://xiaolitongxue.com.cn`；可用 `GITSTARS_CORS_ORIGIN` 逗号覆盖。勿把该口绑公网。
 
-路径：本机 `Code/VPS/gitstars`；生产 `/home/ubuntu/Code/Web/gitstars`。Agent 入口：[../AGENTS.md](../AGENTS.md)。
+路径：本机 `Code/VPS/gitstars`；生产 `/home/ubuntu/Code/VPS/gitstars`。Agent 入口：[../AGENTS.md](../AGENTS.md)。
 
 最小检查：`bash scripts/smoke-local.sh`。
 
@@ -17,7 +17,7 @@
 
 ## 2. 写入 VPS 环境变量
 
-编辑 `~/Code/Web/gitstars/docker/.env`：
+编辑 `~/Code/VPS/gitstars/docker/.env`：
 
 ```env
 VITE_GITSTARS_CLIENT_ID=你的ClientID
@@ -27,13 +27,13 @@ VITE_GITSTARS_CLIENT_SECRET=你的ClientSecret
 **须 LF 换行**（Windows CRLF 会导致 Secret 末尾 `\r`，OAuth 失败）：
 
 ```bash
-sed -i 's/\r$//' ~/Code/Web/gitstars/docker/.env
+sed -i 's/\r$//' ~/Code/VPS/gitstars/docker/.env
 ```
 
 ## 3. 构建并启动
 
 ```bash
-cd ~/Code/Web/gitstars/docker
+cd ~/Code/VPS/gitstars/docker
 docker compose build --no-cache   # 前端/Client ID 变更后必须 rebuild
 docker compose up -d --force-recreate
 ```

@@ -19,7 +19,7 @@ Gitstars 自托管（Docker + `/gitstars/` 子路径）项目记忆。最后更�
 13. VPS curl 走系统代理会 502，验证用 `curl --noproxy "*"`。
 14. pnpm 10 Docker 构建需 `--config.dangerouslyAllowAllBuilds=true`。
 15. `api/oauth/access_token.js` 为 Vercel Edge；自托管用 `server.js`。
-16. Agent 入口 `AGENTS.md`。本机 `Code/VPS/gitstars`；生产 `/home/ubuntu/Code/Web/gitstars`。vps_nginx routing 主表含 `/gitstars/`。
+16. Agent 入口 `AGENTS.md`。本机 `Code/VPS/gitstars`；生产 `/home/ubuntu/Code/VPS/gitstars`。vps_nginx routing 主表含 `/gitstars/`。
 
 ## 问题 / 解法
 

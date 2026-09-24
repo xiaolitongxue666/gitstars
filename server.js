@@ -8,6 +8,7 @@ import 'dotenv/config';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.SERVER_PORT || 8080;
+const BIND = process.env.SERVER_BIND || '127.0.0.1';
 
 const PROXY_URL = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 const proxyAgent = PROXY_URL
@@ -138,7 +139,7 @@ app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(PORT, BIND, () => {
+  console.log(`Server running on ${BIND}:${PORT}`);
   if (PROXY_URL) console.log(`GitHub outbound proxy: ${PROXY_URL}`);
 });

@@ -12,7 +12,7 @@
 ## 路径
 
 - 本机：`Code/VPS/gitstars`
-- 生产：`/home/ubuntu/Code/Web/gitstars`
+- 生产：`/home/ubuntu/Code/VPS/gitstars`
 
 ## 硬约束
 
