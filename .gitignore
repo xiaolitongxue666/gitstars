@@ -19,6 +19,7 @@ package-lock.json
 .env.*
 !.env.example
 docker/.env
+cert/*.key
 
 # pnpm temp/backup lockfiles
 pnpm-lock.yaml.*
