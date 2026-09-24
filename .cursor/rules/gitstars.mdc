@@ -1,0 +1,12 @@
+---
+description: gitstars host 网络只听环回
+alwaysApply: true
+---
+
+生产路径 `/home/ubuntu/Code/VPS/gitstars`。部署：`cd docker && COMPOSE_IGNORE_ORPHANS=true docker compose up -d --no-build`。
+
+`SERVER_BIND=127.0.0.1`、`SERVER_PORT=8091`、host 网络才能打宿主机 `:17890`。勿提交 `docker/.env`、`cert/*.key`。
+
+单仓：`bash scripts/smoke-local.sh`（探 upstream，不要再探一层 `/gitstars/`）。
+
+细节：[AGENTS.md](../../AGENTS.md)
